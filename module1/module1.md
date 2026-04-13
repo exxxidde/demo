@@ -298,7 +298,7 @@ sshuser ALL=(ALL) NOPASSWD:ALL
 
 #
 
-Создание пользователя `net_admin` на маршрутизаторах
+**Создание пользователя `net_admin` на маршрутизаторах**
 
 ```bash
 useradd net_admin

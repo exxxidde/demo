@@ -150,10 +150,28 @@
 ```bash
 hostnamectl set-hostname <FQDN>; exec bash
 ```
-
 FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#table2))
+`exec bash` — обновление оболочки
 
-exec bash — обновление оболочки
+Создаем папку для интерфейса
+```bash
+mkdir /etc/net/ifaces/*имя интерфейса*
+```
+Настраиваем файл `options` (для статичного ip-адреса)
+```bash
+TYPE=eth
+BOOTPROTO=static
+CONFIG_IPV4=yes
+DISABLED=no
+```
+Настраиваем файл `ipv4address` 
+```bash
+172.16.4.2/28
+```
+Настраиваем файл `ipv4route` 
+```bash
+default via 172.16.4.1/28
+```
 
 </details>
 
@@ -170,22 +188,6 @@ exec bash — обновление оболочки
 <summary>Решение</summary>
 <br>
   
-Создаем папку для интерфейса
-```bash
-mkdir /etc/net/ifaces/*имя интерфейса*
-```
-Настраиваем файл `options` (для статичного ip-адреса)
-```bash
-TYPE=eth
-BOOTPROTO=static
-CONFIG_IPV4=yes
-DISABLED=no
-```
-Настраиваем файл `ipv4address` (пример)
-```bash
-172.16.4.1/28
-```
-
 Включение маршрутизации
 В файле `/etc/net/sysctl.conf` изменяем строку:
 ```bash

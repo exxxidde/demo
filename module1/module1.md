@@ -52,7 +52,7 @@
 hostnamectl set-hostname <FQDN>; exec bash
 ```
 
-FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#таблица-2))
+FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#Таблица-2))
 
 exec bash — обновление оболочки
 

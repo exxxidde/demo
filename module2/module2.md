@@ -1,6 +1,6 @@
 # *Demo2025 - Модуль 2*
 
-### **[Задание](https://github.com/exxxidde/demo/blob/main/mod2.pdf)**
+### **[Задание](https://github.com/exxxidde/demo/blob/main/module1/mod1.pdf)**
 
 #
 

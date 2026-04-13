@@ -191,7 +191,7 @@ DISABLED=no
 default via 172.16.4.1/28
 ```
 
-</details>
+#
 
 **Настройка DNS сервера**
 
@@ -199,6 +199,8 @@ default via 172.16.4.1/28
 ```bash
 nameserver 8.8.8.8
 ```
+
+</details>
 
 <br>
 

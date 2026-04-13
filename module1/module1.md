@@ -332,7 +332,7 @@ PasswordAuthentication yes
 Banner /etc/openssh/bannermotd
 AllowUsers  sshuser
 ```
-`В параметре AllowUsers вместо пробела используется Tab`
+***`В параметре AllowUsers вместо пробела используется Tab`***
 
 
 Создаем файл `/etc/openssh/bannermotd`

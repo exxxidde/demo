@@ -52,7 +52,7 @@
 hostnamectl set-hostname <FQDN>; exec bash
 ```
 
-FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#Таблица-2))
+FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#table2))
 
 exec bash — обновление оболочки
 
@@ -134,6 +134,7 @@ exec bash — обновление оболочки
 
 Настройте часовой пояс на всех устройствах согласно месту проведения экзамена.
 
+<a id="table2"></a>
 **Таблица 2**
 
 | Устройство                                     | Запись                          | Тип      |

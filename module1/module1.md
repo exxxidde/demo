@@ -40,6 +40,7 @@
 
 ```bash
 hostnamectl set-hostname <FQDN>; exec bash
+```
 
 FQDN (Fully Qualified Domain Name) — полное доменное имя
 exec bash — обновление оболочки

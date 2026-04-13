@@ -57,7 +57,7 @@ FQDN (Fully Qualified Domain Name) — полное доменное имя
 
 exec bash — обновление оболочки
 
-<br/>
+</details>
 
 ## 2. Настройка ISP
 

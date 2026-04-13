@@ -34,21 +34,109 @@
 **Таблица 1**
 
 
-| Имя устройства | Интерфейс | IPv4/IPv6 | Маска/Префикс | Шлюз |
-| :--- | :--- | :--- | :--- | :--- |
-| **ISP** | ens33 | DHCP | /24 | — |
-| | ens37 (ISP-HQ) | 172.16.4.1 | /28 | |
-| | ens38 (ISP-BR) | 172.16.5.1 | /28 | |
-| **HQ-RTR** | ens33 (ISP-HQ) | 172.16.4.2 | /28 | 172.16.4.1 |
-| | ens37 (HQ-SRV) | 192.168.6.1 (VLAN100) | /26 | |
-| | ens38 (HQ-CLI) | 192.168.5.1 (VLAN200) | /28 | |
-| | gre | 10.0.1.1 | /30 | |
-| **BR-RTR** | ens33 (ISP-BR) | 172.16.5.2 | /28 | 172.16.5.1 |
-| | ens37 (BR-SRV) | 192.168.7.1 | /27 | |
-| | gre | 10.0.1.2 | /30 | |
-| **HQ-SRV** | ens33 (HQ-SRV) | 192.168.6.2 | /26 | 192.168.6.1 |
-| **BR-SRV** | ens33 (BR-SRV) | 192.168.7.2 | /27 | 192.168.7.1 |
-| **HQ-CLI** | ens33 (HQ-CLI) | 192.168.5.3 | /28 | 192.168.5.1 |
+<table>
+  <thead>
+    <tr>
+      <th>Имя устройства</th>
+      <th>Интерфейс</th>
+      <th>IPv4/IPv6</th>
+      <th>Маска/Префикс</th>
+      <th>Шлюз</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- ISP -->
+    <tr>
+      <td rowspan="3"><b>ISP</b></td>
+      <td>ens33</td>
+      <td>DHCP</td>
+      <td>/24</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>ens37 (ISP-HQ)</td>
+      <td>172.16.4.1</td>
+      <td>/28</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ens38 (ISP-BR)</td>
+      <td>172.16.5.1</td>
+      <td>/28</td>
+      <td></td>
+    </tr>
+    <!-- HQ-RTR -->
+    <tr>
+      <td rowspan="4"><b>HQ-RTR</b></td>
+      <td>ens33 (ISP-HQ)</td>
+      <td>172.16.4.2</td>
+      <td>/28</td>
+      <td>172.16.4.1</td>
+    </tr>
+    <tr>
+      <td>ens37 (HQ-SRV)</td>
+      <td>192.168.6.1 (VLAN100)</td>
+      <td>/26</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ens38 (HQ-CLI)</td>
+      <td>192.168.5.1 (VLAN200)</td>
+      <td>/28</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>gre</td>
+      <td>10.0.1.1</td>
+      <td>/30</td>
+      <td></td>
+    </tr>
+    <!-- BR-RTR -->
+    <tr>
+      <td rowspan="3"><b>BR-RTR</b></td>
+      <td>ens33 (ISP-BR)</td>
+      <td>172.16.5.2</td>
+      <td>/28</td>
+      <td>172.16.5.1</td>
+    </tr>
+    <tr>
+      <td>ens37 (BR-SRV)</td>
+      <td>192.168.7.1</td>
+      <td>/27</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>gre</td>
+      <td>10.0.1.2</td>
+      <td>/30</td>
+      <td></td>
+    </tr>
+    <!-- HQ-SRV -->
+    <tr>
+      <td><b>HQ-SRV</b></td>
+      <td>ens33 (HQ-SRV)</td>
+      <td>192.168.6.2</td>
+      <td>/26</td>
+      <td>192.168.6.1</td>
+    </tr>
+    <!-- BR-SRV -->
+    <tr>
+      <td><b>BR-SRV</b></td>
+      <td>ens33 (BR-SRV)</td>
+      <td>192.168.7.2</td>
+      <td>/27</td>
+      <td>192.168.7.1</td>
+    </tr>
+    <!-- HQ-CLI -->
+    <tr>
+      <td><b>HQ-CLI</b></td>
+      <td>ens33 (HQ-CLI)</td>
+      <td>192.168.5.3</td>
+      <td>/28</td>
+      <td>192.168.5.1</td>
+    </tr>
+  </tbody>
+</table>
 
 
 <details>

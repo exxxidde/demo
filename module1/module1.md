@@ -45,7 +45,6 @@
 <details>
 <summary>Решение</summary>
 <br>
-Полное доменное имя можно посмотреть в таблице для <a href="#таблица-1">Задания 1</a>
 
 **Настройка имен устройств на ALT Linux**
 
@@ -53,7 +52,7 @@
 hostnamectl set-hostname <FQDN>; exec bash
 ```
 
-FQDN (Fully Qualified Domain Name) — полное доменное имя [Перейти к таблице](#Таблица 2)
+FQDN (Fully Qualified Domain Name) — полное доменное имя ([Таблица 2](#таблица-2))
 
 exec bash — обновление оболочки
 

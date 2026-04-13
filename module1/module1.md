@@ -272,7 +272,7 @@ sshuser ALL=(ALL) NOPASSWD:ALL
 
 #
 
-Создание пользователя net_admin на маршрутизаторах
+Создание пользователя `net_admin` на маршрутизаторах
 
 ```bash
 useradd net_admin
@@ -322,6 +322,32 @@ net_admin ALL=(ALL) NOPASSWD:ALL
 <details>
 <summary>Решение</summary>
 <br>
+
+Настраиваем `/etc/openssh/sshd_config`
+
+```bash
+Port 2024
+MaxAuthTries 2
+PasswordAuthentication yes
+Banner /etc/openssh/bannermotd
+AllowUsers  sshuser
+```
+`В параметре AllowUsers вместо пробела используется Tab`
+
+
+Создаем файл `/etc/openssh/bannermotd`
+
+```bash
+----------------------
+Authorized access only
+----------------------
+```
+
+Перезагружаем службу:
+
+```bash
+systemctl restart sshd
+```
 
 </details>
 

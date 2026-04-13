@@ -154,6 +154,8 @@ FQDN (Fully Qualified Domain Name) — полное доменное имя ([Т
 
 `exec bash` — обновление оболочки
 
+#
+
 **Настройка сетевых интерфейсов**
 
 Создаем папку для интерфейса
@@ -204,6 +206,8 @@ net.ipv4.ip_forward = 1
 ```bash
 sysctl -p /etc/sysctl.conf
 ```
+
+#
 
 Настройка NAT экрана
 
@@ -265,6 +269,9 @@ usermod -aG wheel sshuser
 ```bash
 sshuser ALL=(ALL) NOPASSWD:ALL
 ```
+
+#
+
 Создание пользователя net_admin на маршрутизаторах
 
 ```bash

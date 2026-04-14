@@ -85,7 +85,7 @@
     </tr>
     <tr>
       <td>ens38 (HQ-CLI)</td>
-      <td>192.168.5.1 (VLAN200)</td>
+      <td>192.168.5.(3) (VLAN200)</td>
       <td>/28</td>
       <td></td>
     </tr>
@@ -591,6 +591,46 @@ systemctl enable --now iptables
 <details>
 <summary>Решение</summary>
 <br>
+
+Установка DHCP-сервера на **HQ-RTR**
+
+```bash
+apt-get instll dhcp-server -y
+```
+
+Выбор интерфейса для раздачи DHCP, необходимо внести запись в `/etc/sysconfig/dhcpd`
+
+```bash
+DHCPDARGS=ens37
+```
+
+Настройка конфигурации dhcp `/etc/dhcp/dhcpd.conf`
+
+```bash
+cp /etc/dhcp/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
+```
+
+Приводим файл к сдедующему виду (все записи уже есть по умолчанию)
+
+```bash
+default-lease-time 600; 
+max-lease-time 7200;
+ddns-update-style none; 
+authoritative;
+
+subnet 192.168.5.0 netmask 255.255.255.240 {
+  range 192.168.5.3 192.168.5.6;
+  option domain-name-servers 192.168.6.2;
+  option domain-name "au-team.irpo";
+  option routers 192.168.5.1;
+}
+```
+
+Запуск DHCP
+
+```bash
+systemctl enable --now dhcpd
+```
 
 </details>
 

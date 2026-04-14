@@ -604,7 +604,7 @@ apt-get instll dhcp-server -y
 DHCPDARGS=ens37
 ```
 
-Настройка конфигурации dhcp `/etc/dhcp/dhcpd.conf`
+Настройка конфигурации DHCP `/etc/dhcp/dhcpd.conf`
 
 ```bash
 cp /etc/dhcp/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
@@ -642,9 +642,143 @@ systemctl enable --now dhcpd
 - Сервер должен обеспечивать разрешение имён в сетевые адреса устройств и обратно в соответствии с **Таблицей 2**.
 - В качестве DNS-сервера пересылки используйте любой общедоступный DNS-сервер.
 
+<a id="table2"></a>
+**Таблица 2**
+
+| Устройство                                     | Запись                          | Тип      |
+|------------------------------------------------|---------------------------------|----------|
+| HQ-RTR                                         | hq-rtr.au-team.irpo            | A, PTR   |
+| BR-RTR                                         | br-rtr.au-team.irpo            | A        |
+| HQ-SRV                                         | hq-srv.au-team.irpo             | A, PTR   |
+| HQ-CLI                                         | hq-cli.au-team.irpo             | A, PTR   |
+| BR-SRV                                         | br-srv.au-team.irpo             | A        |
+| ISP (интерфейс в сторону HQ-RTR)               | moodle.au-team.irpo             | A        |
+| ISP (интерфейс в сторону BR-RTR)               | wiki.au-team.irpo               | A        |
+
 <details>
 <summary>Решение</summary>
 <br>
+
+Установка и подготовка
+```bash
+apt-get install -y bind bind-utils
+```
+```bash
+control bind-chroot disabled
+systemctl daemon-reload
+```
+
+Настройка опций (`/etc/bind/options.conf`)
+
+```bash
+options {
+    directory "/var/lib/bind";
+    listen-on { any; };
+    forwarders { 77.88.8.8; };
+    allow-query { any; };
+    recursion yes;
+};
+```
+
+Описание зон (`/etc/bind/local.conf`) Чтобы сэкономить время, объединим все записи в одну прямую и одну обратную зону (для сети 192.168.x.x).
+
+```bash
+zone "au-team.irpo" {
+    type master;
+    file "/etc/bind/au-team.irpo.db";
+};
+
+# Обратная зона для сети 192.168.0.0/16 (охватит все подсети)
+zone "168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/192.168.rev";
+};
+```
+
+Файл прямой зоны (`/etc/bind/au-team.irpo.db`)
+
+```bash
+cp /etc/bind/zone/localdomain /etc/bind/au-team.irpo.db
+```
+
+Приведем его к следующему виду 
+```bash
+$TTL    1D
+@       IN      SOA     au-team.irpo. root.au-team.irpo. (
+                        2026012400      ; serial
+                        12H             ; refresh
+                        1H              ; retry
+                        1W              ; expire
+                        1H              ; ncache
+                        )
+
+        IN      NS      hq-srv.au-team.irpo.
+
+hq-srv  IN      A       192.168.6.2
+hq-rtr  IN      A       192.168.6.1
+br-rtr  IN      A       192.168.7.1
+hq-cli  IN      A       192.168.5.3
+br-srv  IN      A       192.168.7.2
+
+moodle  IN      A       172.16.4.1
+wiki    IN      A       172.16.5.1
+```
+
+#
+
+Файл обратной зоны (`/etc/bind/192.168.rev`)
+
+```bash
+cp /etc/bind/zone/au-team.irpo.db /etc/zone/192.168.rev
+```
+
+```bash
+$TTL    1D
+@       IN      SOA     au-team.irpo. root.au-team.irpo. (
+                        2026012400      ; serial
+                        12H             ; refresh
+                        1H              ; retry
+                        1W              ; expire
+                        1H              ; ncache
+                        )
+
+        IN      NS      hq-srv.au-team.irpo.
+
+# Формат: последний_октет.предпоследний IN PTR имя
+2.6     IN  PTR hq-srv.au-team.irpo.
+1.6     IN  PTR hq-rtr.au-team.irpo.
+3.5     IN  PTR hq-cli.au-team.irpo.
+```
+Запуск и проверка
+```bash
+# Проверка синтаксиса (если молчит — всё ок)
+named-checkconf /etc/bind/options.conf
+named-checkconf /etc/bind/local.conf
+
+# Права доступа
+chown root:named /etc/bind/au-team.irpo.db
+chown root:named /etc/bind/192.168.rev
+chown root:named /var/lib/bind
+chmod 770 /var/lib/bind
+
+# Перезапуск
+systemctl enable --now bind
+systemctl status bind # если ошибка: control bind-chroot disabled && systemctl daemon-reload
+```
+
+```bash
+#В строке Address: должен появиться правильный IP из таблицы
+nslookup hq-rtr.au-team.irpo 127.0.0.1
+nslookup hq-srv.au-team.irpo 127.0.0.1
+nslookup moodle.au-team.irpo 127.0.0.1
+
+# В строке name = должно быть написано соответствующее доменное имя
+nslookup 192.168.6.2 127.0.0.1
+nslookup 192.168.5.3 127.0.0.1
+
+nslookup google.com 127.0.0.1
+```
+
 
 </details>
 
@@ -658,19 +792,12 @@ systemctl enable --now dhcpd
 <summary>Решение</summary>
 <br>
 
+```bash
+timedatectl set-timezone Europe/Moscow
+timedatectl status
+```
+
 </details>
 
-#
 
-<a id="table2"></a>
-**Таблица 2**
 
-| Устройство                                     | Запись                          | Тип      |
-|------------------------------------------------|---------------------------------|----------|
-| HQ-RTR                                         | hq-rtr.au-team.irpo            | A, PTR   |
-| BR-RTR                                         | br-rtr.au-team.irpo            | A        |
-| HQ-SRV                                         | hq-srv.au-team.irpo             | A, PTR   |
-| HQ-CLI                                         | hq-cli.au-team.irpo             | A, PTR   |
-| BR-SRV                                         | br-srv.au-team.irpo             | A        |
-| ISP (интерфейс в сторону HQ-RTR)               | moodle.au-team.irpo             | A        |
-| ISP (интерфейс в сторону BR-RTR)               | wiki.au-team.irpo               | A        |

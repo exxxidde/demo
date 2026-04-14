@@ -207,7 +207,7 @@ nameserver 8.8.8.8
 <summary>Решение</summary>
 <br>
   
-Включение маршрутизации
+Включение маршрутизации (обязательно сделать на всех роутерах) 
 
 В файле `/etc/net/sysctl.conf` изменяем строку:
 
@@ -218,7 +218,7 @@ net.ipv4.ip_forward = 1
 Изменения в файле `sysctl.conf` применяем следующей командой:
 
 ```bash
-sysctl -p /etc/sysctl.conf
+sysctl -p /etc/net/sysctl.conf
 ```
 
 #

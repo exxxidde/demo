@@ -465,7 +465,6 @@ apt-get install frr -y
 ```bash
 ospfd=yes
 ```
-
 #
 
 ```bash

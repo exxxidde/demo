@@ -404,6 +404,7 @@ TYPE=iptun
 TUNTYPE=gre         
 TUNLOCAL=172.16.4.2
 TUNREMOTE=172.16.5.2
+TUNOPTIONS='ttl 64'
 DISABLED=no
 ```
 Настраиваем файл `ipv4address` 
@@ -431,6 +432,7 @@ TYPE=iptun
 TUNTYPE=gre
 TUNLOCAL=172.16.5.2
 TUNREMOTE=172.16.4.2
+TUNOPTIONS='ttl 64'
 DISABLED=no
 ```
 Настраиваем файл `ipv4address` 
@@ -449,7 +451,7 @@ ifup gre1
 
 <br>
 
-## 7. Обеспечение динамической маршрутизации
+## 7. Обеспечение динамической маршрутизации (FRR)
 
 Ресурсы одного офиса должны быть доступны из другого офиса. Для динамической маршрутизации используйте **link state** протокол на ваше усмотрение.
 
@@ -462,8 +464,79 @@ ifup gre1
 <summary>Решение</summary>
 <br>
 
+Установка frr
+```bash
+apt-get install frr -y
+```
 
+Включение `ospf` (изменяем файл `/etc/frr/daemons`)
 
+```bash
+ospfd=yes
+```
+```bash
+systemctl enable --now frr
+```
+
+#
+## HQ-RTR
+
+Настройка конфигурации `ospf`
+
+```bash
+vtysh
+```
+
+```bash
+conf ter
+router ospf
+router-id 1.1.1.1
+network 192.168.5.0/28 area 0
+network 192.168.6.0/26 area 0
+network 10.0.1.0/30 area 0
+exit
+interface gre1
+ip ospf network point-to-point
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 P@ssw0rd
+end
+write memory
+```
+
+#
+
+#
+
+## HQ-RTR
+
+Настройка конфигурации `ospf`
+
+```bash
+vtysh
+```
+
+```bash
+conf ter
+router ospf
+router-id 2.2.2.2
+network 192.168.7.0/27 area 0
+network 10.0.1.0/30 area 0
+exit
+interface gre1
+ip ospf network point-to-point
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 P@ssw0rd
+end
+write memory
+```
+
+#
+
+**Проверка**
+```bash
+show ip ospf neighbor # должен показать id соседнего роутера
+show ip route ospf # должен показать ip адреса подсетей соседнего роутера
+```
 </details>
 
 <br>

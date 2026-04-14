@@ -196,7 +196,7 @@ nameserver 8.8.8.8
 
 #
 
-Если после перезагрузки устройства параметр net.ipv4.ip_forward не применяется (`sysctl net.ipv4.ip_forward` - команда для проверки, то надо добавить запись в `/etc/sysctl.conf`
+Если после перезагрузки устройства параметр `net.ipv4.ip_forward` не применяется (`sysctl net.ipv4.ip_forward` - команда для проверки, то надо добавить запись в `/etc/sysctl.conf`
 
 net.ipv4.ip_forward = 1
 

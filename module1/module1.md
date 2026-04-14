@@ -478,7 +478,6 @@ ospfd=yes
 systemctl enable --now frr
 ```
 
-#
 ## HQ-RTR
 
 Настройка конфигурации `ospf`
@@ -502,8 +501,6 @@ ip ospf message-digest-key 1 md5 P@ssw0rd
 end
 write memory
 ```
-
-#
 
 ## BR-RTR
 

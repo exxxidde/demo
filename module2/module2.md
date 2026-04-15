@@ -23,7 +23,7 @@
 <summary>Решение</summary>
 <br>
 
-## BR-SRV
+# BR-SRV
 
 Подготовка и установка
 
@@ -80,8 +80,7 @@ done < /opt/users.csv
 samba-tool user add --csv-file=/opt/users.csv
 ```
 
-
-## HQ-CLI
+# HQ-CLI 
 
 Установка необходимых пакетов
 
@@ -152,7 +151,7 @@ sudo id
 <summary>Решение</summary>
 <br>
 
-## HQ-SRV
+# HQ-SRV
 
 В настройках виртуальной машины необходимо добавить 3 диска по 1 ГБ
 
@@ -210,9 +209,7 @@ systemctl enable --now nfs-server
 exportfs -arv
 ```
 
-#
-
-## HQ-CLI
+#HQ-CLI
 
 Установка клиента
 ```bash

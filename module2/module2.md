@@ -479,6 +479,7 @@ iptables-save > /etc/sysconfig/iptables
 <br>
 
 *Способ 1*
+
 **Установка корпоративной сборки (с кастомизацией)**
 
 Если вам нужна именно «версия для организаций» с преднастроенными политиками (например, своими закладками или фоном), ее нужно собрать в Консоли управления : `https://browser.yandex.ru/support/browser-corporate/ru/constructor/downloading-build`

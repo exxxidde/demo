@@ -611,7 +611,7 @@ DHCPDARGS=ens37
 cp /etc/dhcp/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
 ```
 
-Приводим файл к сдедующему виду (все записи уже есть по умолчанию)
+Приводим файл к сдедующему виду (все строки уже есть по умолчанию)
 
 ```bash
 default-lease-time 600; 

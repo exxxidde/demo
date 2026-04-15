@@ -464,8 +464,76 @@ iptables-save > /etc/sysconfig/iptables
 <summary>Решение</summary>
 <br>
 
-```bash
+*Работоспособность не проверена*
 
+1. Установка веб-сервера nginx
+
+```bash
+apt-get update && apt-get install -y nginx
+```
+
+2. Подготовка структуры папок для виртуальных хостов
+
+```bash
+mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+```
+
+3. Создание конфигурации для moodle.au-team.irpo (пересылка на HQ-RTR) `/etc/nginx/sites-available/moodle`
+
+```bash
+server {
+    listen 80;
+    server_name moodle.au-team.irpo;
+
+    location / {
+        proxy_pass http://172.16.4.2:80;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+}
+```
+
+4. Создание конфигурации для wiki.au-team.irpo (пересылка на BR-RTR) `/etc/nginx/sites-available/wiki`
+
+```bash
+server {
+    listen 80;
+    server_name wiki.au-team.irpo;
+
+    location / {
+        proxy_pass http://172.16.5.2:80;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    }
+}
+```
+
+5. Активация сайтов через создание символических ссылок
+
+```bash
+ln -sf /etc/nginx/sites-available/moodle /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/wiki /etc/nginx/sites-enabled/
+```
+
+7. Включение поддержки папки sites-enabled в основном файле nginx.conf
+
+```bash
+# (Добавляет строку include в блок http, если её там нет)
+grep -q "include /etc/nginx/sites-enabled/.*;" /etc/nginx/nginx.conf || sed -i '/http {/a \    include /etc/nginx/sites-enabled/*;' /etc/nginx/nginx.conf
+```
+
+7. Проверка конфигурации на ошибки
+
+```bash
+nginx -t
+```
+
+8. Запуск и добавление nginx в автозагрузку
+
+```bash
+systemctl enable --now nginx
 ```
 
 </details>

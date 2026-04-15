@@ -82,7 +82,7 @@ samba-tool user add --csv-file=/opt/users.csv
 
 #
 
-##HQ-CLI
+## HQ-CLI
 
 Установка необходимых пакетов
 

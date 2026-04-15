@@ -164,19 +164,19 @@ FQDN (Fully Qualified Domain Name) — полное доменное имя ([Т
 ```bash
 mkdir /etc/net/ifaces/*имя интерфейса*
 ```
-Настраиваем файл `options` (вариант для статичного ip-адреса)
+Настраиваем файл `/etc/net/ifaces/*имя интерфейса*/options` (вариант для статичного ip-адреса)
 ```bash
 TYPE=eth
 BOOTPROTO=static
 CONFIG_IPV4=yes
 DISABLED=no
 ```
-Настраиваем файл `ipv4address` 
+Настраиваем файл `/etc/net/ifaces/*имя интерфейса*/ipv4address` 
 ```bash
 172.16.4.2/28
 ```
 
-Настраиваем файл `ipv4route` 
+Настраиваем файл `/etc/net/ifaces/*имя интерфейса*/ipv4route` 
 ```bash
 default via 172.16.4.1/28
 ```

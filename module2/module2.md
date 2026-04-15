@@ -110,6 +110,9 @@ realm join --user=Administrator au-team.irpo # отсутсвие ошибок =
 ```bash
 %hq ALL=(ALL) NOPASSWD: /usr/bin/cat, /usr/bin/grep, /usr/bin/id
 ```
+
+Настройка прав 
+
 ```bash
 chmod 440 /etc/sudoers.d/hq_users
 ```

@@ -120,7 +120,7 @@ chmod 440 /etc/sudoers.d/hq_users
 chmod 4755 /usr/bin/sudo
 ```
 
-Настройка автоматическог создание домашней директории (необходимо добивать запись в файл `/etc/pam.d/system-auth`)
+Настройка автоматическог создание домашней директории (необходимо добавить запись в файл `/etc/pam.d/system-auth`)
 
 ```bash
 session optional pam_mkhomedir.so skel=/etc/skel umask=0022 

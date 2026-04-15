@@ -80,7 +80,6 @@ done < /opt/users.csv
 samba-tool user add --csv-file=/opt/users.csv
 ```
 
-#
 
 ## HQ-CLI
 

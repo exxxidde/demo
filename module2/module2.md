@@ -153,8 +153,86 @@ sudo id
 <summary>Решение</summary>
 <br>
 
-```bash
+## HQ-SRV
 
+В настройках виртуальной машины необходимо добавить 3 диска по 1 ГБ
+
+```bash
+lsblk # после добавления дисков
+```
+
+Создание RAID 5 из 3-х дисков
+```bash
+mdadm --create /dev/md0 -l 5 -n 3 /dev/sd{b,c,d} # выбираем y
+```
+
+Создание файловой системы
+
+```bash
+mkfs.ext4 /dev/md0
+```
+
+Сохранение конфига (чтобы массив не развалился после перезагрузки)
+```bash
+mkdir -p /etc/mdadm
+```
+```bash
+mdadm --detail --scan >> /etc/mdadm.conf
+```
+
+Подготовка папок и монтирование
+```bash
+mkdir /raid5
+echo "/dev/md0 /raid5 ext4 defaults 0 0" >> /etc/fstab
+mount -a
+```
+
+Настройка NFS-сервера
+
+Установка сервера
+```bash
+apt-get install -y nfs-{server,utils}
+```
+Создание папки и выдача прав
+```bash
+mkdir -p /raid5/nfs
+```
+```bash
+chmod 777 /raid5/nfs
+```
+Настройка экспорта (доступ для сети HQ-CLI)
+```bash
+echo "/raid5/nfs 192.168.5.0/28(rw,no_root_squash,no_subtree_check)" > /etc/exports
+```
+
+Запуск службы
+```bash
+systemctl enable --now nfs-server
+exportfs -arv
+```
+
+#
+
+## HQ-CLI
+
+Установка клиента
+```bash
+apt-get install -y nfs-{clients,utils}
+```
+Создание точки монтирования
+```bash
+mkdir -p /mnt/nfs
+```
+
+Настройка автозагрузки в fstab
+```bash
+echo "192.168.6.2:/raid5/nfs /mnt/nfs nfs defaults 0 0" >> /etc/fstab
+```
+
+Проверка монтирования
+```bash
+mount -a
+df -h | grep nfs
 ```
 
 </details>
@@ -169,9 +247,8 @@ sudo id
 <summary>Решение</summary>
 <br>
 
-```bash
 
-```
+
 
 </details>
 
